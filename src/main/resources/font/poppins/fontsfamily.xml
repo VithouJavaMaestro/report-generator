@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+    <fontFamily name="Poppins">
+        <normal><![CDATA[font/poppins/Poppins-Light.ttf]]></normal>
+        <bold><![CDATA[font/poppins/Poppins-Bold.ttf]]></bold>
+        <italic><![CDATA[font/poppins/Poppins-Italic.ttf]]></italic>
+        <boldItalic><![CDATA[font/poppins/Poppins-BoldItalic.ttf]]></boldItalic>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+        <exportFonts/>
+    </fontFamily>
+</fontFamilies>
