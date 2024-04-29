@@ -1,12 +1,11 @@
 package com.vtx.reportgenerator;
 
+import java.io.InputStream;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.type.SectionTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
-
-import java.io.InputStream;
 
 public class JRXMLTemplate {
     private InputStream jrXml;

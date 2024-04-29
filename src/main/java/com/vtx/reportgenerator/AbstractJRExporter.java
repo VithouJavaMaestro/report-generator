@@ -1,26 +1,32 @@
 package com.vtx.reportgenerator;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public abstract class AbstractJRExporter implements ReportExporter<JRConfiguration> {
-    protected OutputStream outputStream;
 
-    public AbstractJRExporter(OutputStream output) {
-        this.outputStream = output;
+    protected BufferedOutputStream outputStream;
+    protected final Log logger = LogFactory.getLog(AbstractJRExporter.class);
+
+    protected AbstractJRExporter(String exportPath) {
+        this(new File(exportPath));
     }
 
-    public AbstractJRExporter(String exportPath) throws FileNotFoundException {
-        this.outputStream = new FileOutputStream(exportPath);
+    protected AbstractJRExporter(File file) {
+        FileUtils.checkFileExtension(file.getName(), getExtension());
+        try {
+            this.outputStream = new BufferedOutputStream(new FileOutputStream(file));
+        } catch (FileNotFoundException exception) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("export path not found");
+            }
+            throw new ReportException("export path not found", 404);
+        }
     }
 
-    public AbstractJRExporter(File file) throws FileNotFoundException {
-        this.outputStream = new FileOutputStream(file);
-    }
-
-    public void setOutput(OutputStream outputStream) {
-        this.outputStream = outputStream;
-    }
+    protected abstract String getExtension();
 }

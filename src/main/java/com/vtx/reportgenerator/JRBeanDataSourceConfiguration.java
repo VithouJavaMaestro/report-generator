@@ -4,12 +4,12 @@ import java.util.Collection;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.export.ExporterInput;
 
-public class JavaBeanCollectionDataSource<T> extends AbstractJRDataSourceConfiguration {
+public class JRBeanDataSourceConfiguration<T> extends AbstractJRDataSourceConfiguration {
 
     private Collection<T> beans;
     private boolean isUseFieldDescription;
 
-    public JavaBeanCollectionDataSource(Collection<T> data) {
+    public JRBeanDataSourceConfiguration(Collection<T> data) {
         if (data == null) {
             throw new IllegalArgumentException("data cannot be null");
         }

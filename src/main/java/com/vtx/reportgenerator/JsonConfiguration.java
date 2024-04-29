@@ -1,17 +1,20 @@
 package com.vtx.reportgenerator;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.TimeZone;
 import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 import net.sf.jasperreports.export.ExporterInput;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.nio.file.Path;
-import java.util.TimeZone;
+public class JsonConfiguration extends AbstractDataFormatConfiguration {
+    private String jsonPath;
 
-public class JsonConfiguration extends AbstractConfiguration {
-    private Path jsonPath;
+    public JsonConfiguration(String jsonPath) {
+        FileUtils.checkFileExtension(jsonPath, "json");
+        this.jsonPath = jsonPath;
+    }
 
-    public void setJsonPath(Path jsonPath) {
+    public void setJsonPath(String jsonPath) {
         if (jsonPath == null) {
             throw new IllegalArgumentException("jsonPath cannot be null");
         }
@@ -23,17 +26,21 @@ public class JsonConfiguration extends AbstractConfiguration {
 
         try {
 
+            setValue(JsonQueryExecuterFactory.JSON_LOCALE_CODE, localCode);
             setValue(JsonQueryExecuterFactory.JSON_DATE_PATTERN, datePattern);
             setValue(JsonQueryExecuterFactory.JSON_NUMBER_PATTERN, numberPattern);
             setValue(JsonQueryExecuterFactory.JSON_LOCALE, locale);
-            setValue(JsonQueryExecuterFactory.JSON_SOURCE, jsonPath.toString());
+            setValue(JsonQueryExecuterFactory.JSON_SOURCE, jsonPath);
             setValue(JsonQueryExecuterFactory.JSON_TIME_ZONE, TimeZone.getTimeZone(zoneId));
-            setValue(JsonQueryExecuterFactory.JSON_INPUT_STREAM, new FileInputStream(jsonPath.toString()));
+            setValue(JsonQueryExecuterFactory.JSON_INPUT_STREAM, new FileInputStream(jsonPath));
 
             return processJasperReportTemplates();
 
         } catch (FileNotFoundException exception) {
-            throw new IllegalArgumentException("File cannot be found", exception);
+            if (logger.isDebugEnabled()) {
+                logger.debug("File not found");
+            }
+            throw new ReportException("File not found", 404);
         }
     }
 }

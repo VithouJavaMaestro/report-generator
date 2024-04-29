@@ -1,2 +1,5 @@
-package com.vtx.reportgenerator;public interface ReportManager {
-}
+//package com.vtx.reportgenerator;
+//
+//public interface ReportManager {
+//    JasperPrintItemExporter create(ReportContext context);
+//}
