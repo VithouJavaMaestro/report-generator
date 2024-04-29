@@ -1,6 +1,8 @@
-package com.vtx.reportgenerator;
+package com.vtx.reportgenerator.utils;
 
 import java.util.Arrays;
+
+import com.vtx.reportgenerator.ReportException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;

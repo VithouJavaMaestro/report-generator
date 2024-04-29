@@ -7,8 +7,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 
 public abstract class AbstractDataFormatConfiguration extends AbstractJRConfiguration {
-
-
     protected DateFormat dateFormat = DEFAULT_DATE_FORMAT;
     protected NumberFormat numberFormat = DEFAULT_NUMBER_FORMAT;
     protected String zoneId = DEFAULT_TIME_ZONE;
