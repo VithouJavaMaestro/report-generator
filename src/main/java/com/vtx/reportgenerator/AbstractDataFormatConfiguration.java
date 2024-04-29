@@ -1,25 +1,29 @@
 package com.vtx.reportgenerator;
 
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import org.apache.catalina.util.ParameterMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+public abstract class Abstract implements JRConfiguration {
 
-public abstract class AbstractConfiguration implements JRConfiguration {
+    protected static final Log logger = LogFactory.getLog(Abstract.class);
     protected DateFormat dateFormat = DEFAULT_DATE_FORMAT;
     protected NumberFormat numberFormat = DEFAULT_NUMBER_FORMAT;
     protected String zoneId = DEFAULT_TIME_ZONE;
     protected Locale locale = DEFAULT_LOCALE;
     protected String datePattern = DEFAULT_DATE_PATTERN;
     protected String numberPattern = DEFAULT_NUMBER_PATTERN;
+    protected String localCode = DEFAULT_LOCALE_CODE;
     private List<JRXMLTemplate> jrXmlTemplates;
     private ParameterMap<String, Object> params;
 
@@ -41,14 +45,20 @@ public abstract class AbstractConfiguration implements JRConfiguration {
 
                     JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, this.params);
                     jasperPrintItemExporter.add(jasperPrint);
+
                 }
             }
 
             return jasperPrintItemExporter;
+
         } catch (JRException exception) {
-            throw new ReportException("An error occurred during process report", exception);
+            if (logger.isErrorEnabled()) {
+                logger.error("An error occurred during process report", exception);
+            }
+            throw new ReportException("An error occurred during process report", exception, 500);
         }
     }
+
 
     public void setJrXmlTemplates(List<JRXMLTemplate> jrXmlTemplates) {
         this.jrXmlTemplates = jrXmlTemplates;
