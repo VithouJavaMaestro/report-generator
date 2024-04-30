@@ -6,7 +6,7 @@ import java.util.TimeZone;
 import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 import net.sf.jasperreports.export.ExporterInput;
 
-public class JsonConfiguration extends AbstractDataFormatConfiguration {
+public class JsonConfiguration extends AbstractFileReaderConfiguration {
     private String jsonPath;
 
     public JsonConfiguration(String jsonPath) {

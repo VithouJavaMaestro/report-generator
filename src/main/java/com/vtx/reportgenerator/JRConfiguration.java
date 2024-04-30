@@ -8,7 +8,6 @@ import java.util.Locale;
 import net.sf.jasperreports.export.ExporterInput;
 
 public interface JRConfiguration extends Configuration {
-
     String DEFAULT_TIME_ZONE = "UTC";
     Locale DEFAULT_LOCALE = Locale.ENGLISH;
     String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";

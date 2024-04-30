@@ -8,7 +8,7 @@ import java.util.TimeZone;
 import net.sf.jasperreports.engine.query.JRCsvQueryExecuterFactory;
 import net.sf.jasperreports.export.ExporterInput;
 
-public class CSVConfiguration extends AbstractDataFormatConfiguration {
+public class CSVConfiguration extends AbstractFileReaderConfiguration {
     private String csvPath;
     private String csvEncoding = "UTF-8";
     private String csvDelimiter;

@@ -1,17 +1,16 @@
 package com.vtx.reportgenerator;
 
+import com.vtx.reportgenerator.exporter.JRPdfReportExporter;
+import net.sf.jasperreports.engine.JRException;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 
 public class Client {
     public static void main(String[] args) throws FileNotFoundException, JRException {
-        var path = "C:\\Users\\Chanthavithou THEN\\Documents\\lib-commons\\report-generator\\src\\main\\resources\\employee-report.jrxml";
-        var jsonPath = "C:\\Users\\Chanthavithou THEN\\Downloads\\RandomData (1).json";
-        var outPath = "C:\\Users\\Chanthavithou THEN\\Documents\\lib-commons\\report-generator\\src\\main\\resources\\Sample2.pdf";
+        var path = "C:\\Users\\THENCHANTHAVITHOU\\Documents\\my-project\\report-generator\\src\\main\\resources\\employee-report.jrxml";
+//        var jsonPath = "C:\\Users\\Chanthavithou THEN\\Downloads\\RandomData (1).json";
+        var outPath = "C:\\Users\\THENCHANTHAVITHOU\\Documents\\my-project\\report-generator\\src\\main\\resources\\Sample2.pdf";
 //        var imagePath = "C:\\Users\\THENCHANTHAVITHOU\\Pictures\\Screenshots\\Screenshot 2023-10-30 221133.png";
 //        var front = "C:\\Users\\THENCHANTHAVITHOU\\Documents\\jasper\\Picture3.jpg";
 //        var back = "C:\\Users\\THENCHANTHAVITHOU\\Documents\\jasper\\Picture2.jpg";
@@ -62,15 +61,12 @@ public class Client {
 //        JRPdfReportExporter jrPdfReportExporter = new JRPdfReportExporter(outPath);
 //        jrPdfReportExporter.exportReport(excelConfiguration);
 
-        List<Person> personList = new ArrayList<>();
-        personList.add(new Person("John", "Doe", "Johndoe@gmail.com"));
-        personList.add(new Person("Jane", "Jones", "Janes jones@gmail.com"));
+        String url = "jdbc:postgresql://localhost:5432/postgres";
 
-        JRBeanDataSourceConfiguration<Person> javaBeanCollectionDataSource = new JRBeanDataSourceConfiguration<>(personList);
-        javaBeanCollectionDataSource.addJrXml(new FileInputStream(path));
-        javaBeanCollectionDataSource.setCustomizer((jasperReport, jasperPrint) -> jasperReport.setWhenNoDataType(WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL));
+        DataSourceConfiguration dataSourceConfiguration = new DataSourceConfiguration("postgres", "AW-vithou", url);
+        dataSourceConfiguration.addJrXml(new FileInputStream(path));
 
-        JRPdfReportExporter jrBeanDataSourceConfigurationReportExporter = new JRPdfReportExporter(outPath);
-        jrBeanDataSourceConfigurationReportExporter.exportReport(javaBeanCollectionDataSource);
+        JRPdfReportExporter jrPdfReportExporter = new JRPdfReportExporter(outPath);
+        jrPdfReportExporter.exportReport(dataSourceConfiguration);
     }
 }

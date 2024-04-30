@@ -1,12 +1,12 @@
 package com.vtx.reportgenerator;
 
+import net.sf.jasperreports.engine.JasperFillManager;
+
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
 
-public abstract class AbstractDataFormatConfiguration extends AbstractJRConfiguration {
+public abstract class AbstractFileReaderConfiguration extends AbstractJRConfiguration {
     protected DateFormat dateFormat = DEFAULT_DATE_FORMAT;
     protected NumberFormat numberFormat = DEFAULT_NUMBER_FORMAT;
     protected String zoneId = DEFAULT_TIME_ZONE;
@@ -16,13 +16,7 @@ public abstract class AbstractDataFormatConfiguration extends AbstractJRConfigur
     protected String localCode = DEFAULT_LOCALE_CODE;
 
     protected JasperPrintItemExporter processJasperReportTemplates() {
-        return processJasperReportTemplates(jasperReport -> {
-            try {
-                return JasperFillManager.fillReport(jasperReport, parameters);
-            } catch (JRException exception) {
-                throw new ReportException("An error occurred during process report", exception, 500);
-            }
-        });
+        return processJasperReportTemplates(jasperReport -> JasperFillManager.fillReport(jasperReport, parameters));
     }
 
     public DateFormat getDateFormat() {

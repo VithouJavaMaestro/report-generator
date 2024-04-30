@@ -9,7 +9,7 @@ import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
 import net.sf.jasperreports.export.ExporterInput;
 import org.apache.poi.ss.usermodel.Workbook;
 
-public class ExcelConfiguration extends AbstractDataFormatConfiguration {
+public class ExcelConfiguration extends AbstractFileReaderConfiguration {
 
     private Workbook xlsWorkBook;
     private String excelPath;
