@@ -1,7 +1,10 @@
 package com.vtx.reportgenerator.utils;
-@SuppressWarnings("unchecked")
+
 public interface CastUtils {
-    static <T> T cast(Object data) {
-        return (T) data;
+
+    @SuppressWarnings("unchecked")
+    static <T> T cast(Object object) {
+        return (T) object;
     }
 }
+

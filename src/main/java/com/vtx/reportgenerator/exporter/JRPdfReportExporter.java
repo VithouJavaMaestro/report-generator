@@ -1,7 +1,9 @@
 package com.vtx.reportgenerator.exporter;
 
 import com.vtx.reportgenerator.AbstractJRExporter;
+import com.vtx.reportgenerator.ExporterKey;
 import com.vtx.reportgenerator.JRConfiguration;
+import com.vtx.reportgenerator.Key;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.Exporter;
@@ -11,21 +13,13 @@ import net.sf.jasperreports.export.PdfExporterConfiguration;
 import net.sf.jasperreports.export.PdfReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 
 public class JRPdfReportExporter extends AbstractJRExporter<ExporterInput, PdfReportConfiguration, PdfExporterConfiguration, OutputStreamExporterOutput> {
 
-    public JRPdfReportExporter(String exportPath) {
-        super(exportPath);
-    }
-
-    public JRPdfReportExporter(File file) {
-        super(file);
-    }
-
     @Override
     protected OutputStreamExporterOutput getExporterOutput(JRConfiguration jrConfiguration) {
-        return new SimpleOutputStreamExporterOutput(outputStream);
+        return new SimpleOutputStreamExporterOutput(byteArrayOutputStream);
     }
 
     @Override
@@ -54,7 +48,7 @@ public class JRPdfReportExporter extends AbstractJRExporter<ExporterInput, PdfRe
     }
 
     @Override
-    protected String[] getExtension() {
-        return new String[]{"pdf"};
+    public boolean isMatchKey(Key key) {
+        return ExporterKey.PDF == key;
     }
 }
