@@ -6,6 +6,6 @@ import net.sf.jasperreports.engine.JasperReport;
 import java.io.InputStream;
 
 @FunctionalInterface
-public interface JxmlTemplateCustomizer {
+public interface JrxmlTemplateCustomizer {
     JasperReport customize(InputStream jrxml) throws JRException;
 }

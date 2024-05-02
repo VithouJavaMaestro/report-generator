@@ -2,6 +2,7 @@ package com.vtx.reportgenerator;
 
 import com.vtx.reportgenerator.configuration.JRJsonConfiguration;
 import com.vtx.reportgenerator.exporter.JRPptxReportExporter;
+import com.vtx.reportgenerator.key.JRFileConfigurationKey;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;

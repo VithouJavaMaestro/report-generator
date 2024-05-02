@@ -1,5 +1,6 @@
 package com.vtx.reportgenerator;
 
+import com.vtx.reportgenerator.key.Key;
 import java.util.List;
 
 public class ReportExporterFactory {

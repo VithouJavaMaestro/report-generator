@@ -1,18 +1,17 @@
 package com.vtx.reportgenerator.configuration;
 
-import com.vtx.reportgenerator.FileUtils;
+import com.vtx.reportgenerator.utils.FileUtils;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import net.sf.jasperreports.data.excel.ExcelFormatEnum;
 import net.sf.jasperreports.engine.query.AbstractXlsQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 public class JRXlsxConfiguration extends AbstractJRFileConfiguration {
+
     private Workbook xlsWorkBook;
-    private String excelPath;
     private String sheetSelection;
     private ExcelFormatEnum xlsFormat;
     private String[] columnNames;
@@ -20,33 +19,29 @@ public class JRXlsxConfiguration extends AbstractJRFileConfiguration {
     private boolean userFirstRowAsHeader;
 
     public JRXlsxConfiguration(String excelPath) {
+        super(excelPath);
         FileUtils.checkFileExtension(excelPath, "xlsx", "xls");
-        this.excelPath = excelPath;
     }
 
     @Override
-    protected void afterPropertiesSet() {
+    protected void afterPropertiesSet() throws FileNotFoundException {
 
-        try {
+        File file = new File(path);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_WORKBOOK, xlsWorkBook);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_SHEET_SELECTION, sheetSelection);
+        setValue(ExcelQueryExecuterFactory.XLS_FORMAT, xlsFormat);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_DATE_FORMAT, dateFormat);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_DATE_PATTERN, datePattern);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_NUMBER_FORMAT, numberFormat);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_NUMBER_PATTERN, numberPattern);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_INPUT_STREAM, new FileInputStream(file));
+        setValue(AbstractXlsQueryExecuterFactory.XLS_FILE, file);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_SOURCE, path);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_LOCALE_CODE, localCode);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_COLUMN_NAMES, columnNames);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_COLUMN_INDEXES, columnIndex);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_USE_FIRST_ROW_AS_HEADER, userFirstRowAsHeader);
 
-            File file = new File(excelPath);
-            setValue(AbstractXlsQueryExecuterFactory.XLS_WORKBOOK, xlsWorkBook);
-            setValue(AbstractXlsQueryExecuterFactory.XLS_SHEET_SELECTION, sheetSelection);
-            setValue(ExcelQueryExecuterFactory.XLS_FORMAT, xlsFormat);
-            setValue(AbstractXlsQueryExecuterFactory.XLS_DATE_FORMAT, dateFormat);
-            setValue(AbstractXlsQueryExecuterFactory.XLS_DATE_PATTERN, datePattern);
-            setValue(AbstractXlsQueryExecuterFactory.XLS_NUMBER_FORMAT, numberFormat);
-            setValue(AbstractXlsQueryExecuterFactory.XLS_NUMBER_PATTERN, numberPattern);
-            setValue(AbstractXlsQueryExecuterFactory.XLS_INPUT_STREAM, new FileInputStream(file));
-            setValue(AbstractXlsQueryExecuterFactory.XLS_FILE, file);
-            setValue(AbstractXlsQueryExecuterFactory.XLS_LOCALE_CODE, localCode);
-            setValue(AbstractXlsQueryExecuterFactory.XLS_COLUMN_NAMES, columnNames);
-            setValue(AbstractXlsQueryExecuterFactory.XLS_COLUMN_INDEXES, columnIndex);
-            setValue(AbstractXlsQueryExecuterFactory.XLS_USE_FIRST_ROW_AS_HEADER, userFirstRowAsHeader);
-
-        } catch (FileNotFoundException exception) {
-            throw new IllegalArgumentException("File not found", exception);
-        }
     }
 
     public Workbook getXlsWorkBook() {
@@ -55,14 +50,6 @@ public class JRXlsxConfiguration extends AbstractJRFileConfiguration {
 
     public void setXlsWorkBook(Workbook xlsWorkBook) {
         this.xlsWorkBook = xlsWorkBook;
-    }
-
-    public String getExcelPath() {
-        return excelPath;
-    }
-
-    public void setExcelPath(String excelPath) {
-        this.excelPath = excelPath;
     }
 
     public String getSheetSelection() {

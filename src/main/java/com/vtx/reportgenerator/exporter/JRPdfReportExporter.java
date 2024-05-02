@@ -1,9 +1,9 @@
 package com.vtx.reportgenerator.exporter;
 
 import com.vtx.reportgenerator.AbstractJRExporter;
-import com.vtx.reportgenerator.ExporterKey;
+import com.vtx.reportgenerator.key.ExporterKey;
 import com.vtx.reportgenerator.JRConfiguration;
-import com.vtx.reportgenerator.Key;
+import com.vtx.reportgenerator.key.Key;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.Exporter;
@@ -12,8 +12,6 @@ import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.PdfExporterConfiguration;
 import net.sf.jasperreports.export.PdfReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-
-import java.io.ByteArrayOutputStream;
 
 public class JRPdfReportExporter extends AbstractJRExporter<ExporterInput, PdfReportConfiguration, PdfExporterConfiguration, OutputStreamExporterOutput> {
 

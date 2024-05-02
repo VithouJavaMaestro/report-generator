@@ -1,49 +1,49 @@
-package com.vtx.reportgenerator;
+package com.vtx.reportgenerator.key;
 
 public enum ExporterKey implements Key {
-    HTML() {
+    HTML {
         @Override
         public String getKey() {
             return "html";
         }
     },
-    DOCX() {
+    DOCX {
         @Override
         public String getKey() {
             return "docx";
         }
     },
-    DOC() {
+    DOC {
         @Override
         public String getKey() {
             return "doc";
         }
     },
-    PDF() {
+    PDF {
         @Override
         public String getKey() {
             return "pdf";
         }
     },
-    PPT() {
+    PPT {
         @Override
         public String getKey() {
             return "ppt";
         }
     },
-    PPTX() {
+    PPTX {
         @Override
         public String getKey() {
             return "pptx";
         }
     },
-    XLSX() {
+    XLSX {
         @Override
         public String getKey() {
             return "xlsx";
         }
     },
-    XLS() {
+    XLS {
         @Override
         public String getKey() {
             return "xls";

@@ -1,4 +1,4 @@
-package com.vtx.reportgenerator;
+package com.vtx.reportgenerator.key;
 
 public interface Key {
     String getKey();

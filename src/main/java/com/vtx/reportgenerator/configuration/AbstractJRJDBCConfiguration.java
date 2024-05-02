@@ -16,7 +16,7 @@ public abstract class AbstractJRJDBCConfiguration extends AbstractJRConfiguratio
     }
 
     @Override
-    protected JasperPrint initializeJasperPrint(JasperReport jasperReport) throws JRException {
+    protected JasperPrint prepareJasperPrint(JasperReport jasperReport) throws JRException {
         Objects.requireNonNull(connection);
         return JasperFillManager.fillReport(jasperReport, parameters, connection);
     }

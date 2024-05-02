@@ -14,7 +14,7 @@ public abstract class AbstractJRDataSourceConfiguration extends AbstractJRConfig
     }
 
     @Override
-    protected JasperPrint initializeJasperPrint(JasperReport jasperReport) throws JRException {
+    protected JasperPrint prepareJasperPrint(JasperReport jasperReport) throws JRException {
         return JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);
     }
 }

@@ -1,5 +1,6 @@
 package com.vtx.reportgenerator.configuration;
 
+import com.vtx.reportgenerator.key.Key;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import java.util.Collection;

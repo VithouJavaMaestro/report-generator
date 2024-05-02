@@ -1,11 +1,19 @@
 package com.vtx.reportgenerator;
 
 import com.vtx.reportgenerator.configuration.AbstractJRConfiguration;
-import com.vtx.reportgenerator.configuration.CSVConfiguration;
 import com.vtx.reportgenerator.configuration.Configuration;
+import com.vtx.reportgenerator.configuration.JRCSVConfiguration;
 import com.vtx.reportgenerator.configuration.JRJsonConfiguration;
 import com.vtx.reportgenerator.configuration.JRXlsxConfiguration;
 import com.vtx.reportgenerator.configuration.JRXmlConfiguration;
+import com.vtx.reportgenerator.key.ExporterKey;
+import com.vtx.reportgenerator.key.JRFileConfigurationKey;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Locale;
+import java.util.UUID;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -14,6 +22,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
@@ -25,15 +34,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Locale;
-import java.util.UUID;
 
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @RestController
@@ -71,12 +71,12 @@ public class ReportGeneratorApplication {
     }
 
     @PostMapping(value = "/file/report/configuration")
-    public ResponseEntity<String> configuration(
+    public ResponseEntity<Resource> configuration(
             @RequestParam("file") MultipartFile file,
             @RequestParam("templateFile") MultipartFile templateFile,
             @RequestParam("type") ExporterKey type) throws IOException {
 
-        String resourcePath = "C:\\Users\\THENCHANTHAVITHOU\\Documents\\my-project\\report-generator\\src\\main\\resources";
+        String resourcePath = "D:\\allweb\\self-git\\report-generator\\src\\main\\resources";
 
         Path templatePath = Path.of(resourcePath, templateFile.getOriginalFilename());
         Path importPath = Path.of(resourcePath, file.getOriginalFilename());
@@ -88,10 +88,18 @@ public class ReportGeneratorApplication {
         if (file.getOriginalFilename() != null) {
             Configuration configuration = getConfiguration(FilenameUtils.getExtension(file.getOriginalFilename()), importPath.toString(), templatePath.toString());
             byte[] bytes = reportExportationProvider.exportReport(configuration);
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-            String storePath = Path.of(resourcePath, UUID.randomUUID() + "." + type.getKey()).toString();
-            byteArrayInputStream.transferTo(new FileOutputStream(storePath));
-            return ResponseEntity.ok(FilenameUtils.getName(storePath));
+            ByteArrayResource byteArrayResource = new ByteArrayResource(bytes);
+            ContentDisposition contentDisposition = ContentDisposition
+                    .attachment()
+                    .filename(UUID.randomUUID() + "." + type.getKey())
+                    .build();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentDisposition(contentDisposition);
+            httpHeaders.setContentLength(byteArrayResource.contentLength());
+            return ResponseEntity.ok()
+                    .headers(httpHeaders)
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(byteArrayResource);
         }
 
         return null;
@@ -101,12 +109,13 @@ public class ReportGeneratorApplication {
 
         JRFileConfigurationKey configurationKey = JRFileConfigurationKey.valueOf(type.toUpperCase(Locale.ENGLISH));
 
-        AbstractJRConfiguration configuration = getJrConfiguration(importPath, configurationKey);
+        AbstractJRConfiguration configuration = determineJrConfiguration(importPath, configurationKey);
 
         configuration.setJxmlTemplateCustomizer((jrxml) -> {
             JasperDesign jasperDesign = JRXmlLoader.load(jrxml);
             JRDesignQuery jrDesignQuery = new JRDesignQuery();
             jrDesignQuery.setLanguage(configurationKey.getKey());
+
             jasperDesign.setQuery(jrDesignQuery);
             return JasperCompileManager.compileReport(jasperDesign);
         });
@@ -116,12 +125,12 @@ public class ReportGeneratorApplication {
         return configuration;
     }
 
-    private static AbstractJRConfiguration getJrConfiguration(String importPath, JRFileConfigurationKey configurationKey) {
+    private static AbstractJRConfiguration determineJrConfiguration(String importPath, JRFileConfigurationKey configurationKey) {
 
         AbstractJRConfiguration configuration;
 
         switch (configurationKey) {
-            case CSV -> configuration = new CSVConfiguration(importPath);
+            case CSV -> configuration = new JRCSVConfiguration(importPath);
             case JSON -> configuration = new JRJsonConfiguration(importPath);
             case XML -> configuration = new JRXmlConfiguration(importPath);
             case XLSX -> configuration = new JRXlsxConfiguration(importPath);
