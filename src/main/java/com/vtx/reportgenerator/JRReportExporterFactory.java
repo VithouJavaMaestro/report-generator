@@ -1,16 +1,17 @@
 package com.vtx.reportgenerator;
 
 import com.vtx.reportgenerator.key.Key;
+
 import java.util.List;
 
-public class ReportExporterFactory {
-    private final List<ReportExportationProvider> reportExportationProviders;
+public class JRReportExporterFactory {
+    private final List<JRReportExportationProvider> reportExportationProviders;
 
-    public ReportExporterFactory(List<ReportExportationProvider> reportExportationProviders) {
+    public JRReportExporterFactory(List<JRReportExportationProvider> reportExportationProviders) {
         this.reportExportationProviders = reportExportationProviders;
     }
 
-    public ReportExportationProvider determineExporter(Key key) {
+    public JRReportExportationProvider determineExporter(Key key) {
         return reportExportationProviders
                 .stream()
                 .filter(configurationReportExportationProvider -> configurationReportExportationProvider.isMatchKey(key))

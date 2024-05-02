@@ -3,35 +3,35 @@ package com.vtx.reportgenerator.key;
 public enum JRFileConfigurationKey implements Key {
     JSON {
         @Override
-        public String getKey() {
+        public String getName() {
             return "JSON";
         }
     },
 
     XML {
         @Override
-        public String getKey() {
+        public String getName() {
             return "XPath";
         }
     },
 
     CSV {
         @Override
-        public String getKey() {
+        public String getName() {
             return "csv";
         }
     },
 
     XLSX {
         @Override
-        public String getKey() {
-            return "xls";
+        public String getName() {
+            return "xlsx";
         }
     },
 
     XLS {
         @Override
-        public String getKey() {
+        public String getName() {
             return "xls";
         }
     },

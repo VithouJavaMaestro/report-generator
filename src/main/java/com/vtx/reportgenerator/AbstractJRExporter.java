@@ -1,7 +1,5 @@
 package com.vtx.reportgenerator;
 
-import com.vtx.reportgenerator.configuration.Configuration;
-import java.io.ByteArrayOutputStream;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.export.Exporter;
@@ -12,11 +10,11 @@ import net.sf.jasperreports.export.ReportExportConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.ByteArrayOutputStream;
+
 public abstract class AbstractJRExporter<I extends ExporterInput, IC extends ReportExportConfiguration,
-        C extends ExporterConfiguration, O extends ExporterOutput> implements ReportExportationProvider {
-
+        C extends ExporterConfiguration, O extends ExporterOutput> implements JRReportExportationProvider {
     protected ByteArrayOutputStream byteArrayOutputStream;
-
     protected final Log logger = LogFactory.getLog(AbstractJRExporter.class);
 
     protected abstract O getExporterOutput(JRConfiguration jrConfiguration);
@@ -32,11 +30,7 @@ public abstract class AbstractJRExporter<I extends ExporterInput, IC extends Rep
     protected abstract Exporter<I, IC, C, O> getExporter(JRConfiguration jrConfiguration);
 
     @Override
-    public byte[] exportReport(Configuration configuration) throws ReportException {
-
-        if (!(configuration instanceof JRConfiguration jrConfiguration)) {
-            throw new ReportException("jrConfiguration cannot be found", 404);
-        }
+    public byte[] exportReport(JRConfiguration jrConfiguration) throws ReportException {
 
         this.byteArrayOutputStream = new ByteArrayOutputStream();
 

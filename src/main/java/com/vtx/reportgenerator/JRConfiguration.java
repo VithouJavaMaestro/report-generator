@@ -10,7 +10,6 @@ import com.vtx.reportgenerator.configuration.Configuration;
 import net.sf.jasperreports.export.ExporterInput;
 
 public interface JRConfiguration extends Configuration {
-
     String DEFAULT_TIME_ZONE = "UTC";
     Locale DEFAULT_LOCALE = Locale.ENGLISH;
     String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
@@ -18,7 +17,5 @@ public interface JRConfiguration extends Configuration {
     NumberFormat DEFAULT_NUMBER_FORMAT = new DecimalFormat();
     DateFormat DEFAULT_DATE_FORMAT = new StdDateFormat();
     String DEFAULT_LOCALE_CODE = "en_US";
-
     ExporterInput getExporterInput();
-
 }

@@ -5,7 +5,7 @@ import com.vtx.reportgenerator.key.Key;
 public enum ReportProvider implements Key {
     JASPER_REPORT() {
         @Override
-        public String getKey() {
+        public String getName() {
             return "jasperReport";
         }
     }

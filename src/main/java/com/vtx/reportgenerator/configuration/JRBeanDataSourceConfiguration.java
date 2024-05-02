@@ -1,5 +1,6 @@
 package com.vtx.reportgenerator.configuration;
 
+import com.vtx.reportgenerator.key.JRConfigurationKey;
 import com.vtx.reportgenerator.key.Key;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
@@ -39,5 +40,10 @@ public class JRBeanDataSourceConfiguration<T> extends AbstractJRDataSourceConfig
 
     public void setUseFieldDescription(boolean useFieldDescription) {
         isUseFieldDescription = useFieldDescription;
+    }
+
+    @Override
+    public Key getKey() {
+        return JRConfigurationKey.JR_BEAN_COLLECTION_DATASOURCE;
     }
 }

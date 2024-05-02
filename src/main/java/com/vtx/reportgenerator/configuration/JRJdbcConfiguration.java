@@ -1,6 +1,8 @@
 package com.vtx.reportgenerator.configuration;
 
 import com.vtx.reportgenerator.ReportException;
+import com.vtx.reportgenerator.key.JRConfigurationKey;
+import com.vtx.reportgenerator.key.Key;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 
 import javax.sql.DataSource;
@@ -44,5 +46,10 @@ public class JRJdbcConfiguration extends AbstractJRJDBCConfiguration {
             logger.error(msg, exception);
             throw new ReportException(msg, exception, 500);
         }
+    }
+
+    @Override
+    public Key getKey() {
+        return JRConfigurationKey.JR_JDBC;
     }
 }

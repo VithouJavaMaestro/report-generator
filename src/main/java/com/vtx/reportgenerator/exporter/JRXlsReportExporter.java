@@ -5,15 +5,15 @@ import com.vtx.reportgenerator.JRConfiguration;
 import com.vtx.reportgenerator.key.ExporterKey;
 import com.vtx.reportgenerator.key.Key;
 import net.sf.jasperreports.engine.ReportContext;
-import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.XlsxExporterConfiguration;
-import net.sf.jasperreports.export.XlsxReportConfiguration;
+import net.sf.jasperreports.export.XlsExporterConfiguration;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 
-public class JRXlsxReportExporter extends AbstractJRExporter<ExporterInput, XlsxReportConfiguration, XlsxExporterConfiguration, OutputStreamExporterOutput> {
+public class JRXlsReportExporter extends AbstractJRExporter<ExporterInput, XlsReportConfiguration, XlsExporterConfiguration, OutputStreamExporterOutput> {
     @Override
     protected OutputStreamExporterOutput getExporterOutput(JRConfiguration jrConfiguration) {
         return new SimpleOutputStreamExporterOutput(byteArrayOutputStream);
@@ -25,12 +25,12 @@ public class JRXlsxReportExporter extends AbstractJRExporter<ExporterInput, Xlsx
     }
 
     @Override
-    protected XlsxReportConfiguration getReportConfiguration(JRConfiguration jrConfiguration) {
+    protected XlsReportConfiguration getReportConfiguration(JRConfiguration jrConfiguration) {
         return null;
     }
 
     @Override
-    protected XlsxExporterConfiguration getExporterConfiguration(JRConfiguration jrConfiguration) {
+    protected XlsExporterConfiguration getExporterConfiguration(JRConfiguration jrConfiguration) {
         return null;
     }
 
@@ -40,12 +40,12 @@ public class JRXlsxReportExporter extends AbstractJRExporter<ExporterInput, Xlsx
     }
 
     @Override
-    protected Exporter<ExporterInput, XlsxReportConfiguration, XlsxExporterConfiguration, OutputStreamExporterOutput> getExporter(JRConfiguration jrConfiguration) {
-        return new JRXlsxExporter();
+    protected Exporter<ExporterInput, XlsReportConfiguration, XlsExporterConfiguration, OutputStreamExporterOutput> getExporter(JRConfiguration jrConfiguration) {
+        return new JRXlsExporter();
     }
 
     @Override
     public boolean isMatchKey(Key key) {
-        return ExporterKey.XLSX == key;
+        return ExporterKey.XLS == key;
     }
 }

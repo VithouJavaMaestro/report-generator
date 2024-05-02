@@ -1,15 +1,11 @@
 package com.vtx.reportgenerator.configuration;
 
 import com.vtx.reportgenerator.JRConfiguration;
+import com.vtx.reportgenerator.JRReportExportationProvider;
 import com.vtx.reportgenerator.JasperPrintCustomizer;
 import com.vtx.reportgenerator.JasperPrintItemExporter;
 import com.vtx.reportgenerator.JrxmlTemplateCustomizer;
 import com.vtx.reportgenerator.ReportException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -20,6 +16,12 @@ import net.sf.jasperreports.export.ExporterInput;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Abstract class for jasper report configuration.
  *
@@ -28,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
  * @see JRXlsxConfiguration
  * @see JRXmlConfiguration
  * @see JRCSVConfiguration
+ * @see <a href="https://github.com/VithouJavaMaestro">https://github.com/VithouJavaMaestro</a>
  * @since 1.0.0
  */
 public abstract class AbstractJRConfiguration implements JRConfiguration {
@@ -72,7 +75,7 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
     protected abstract void afterPropertiesSet() throws Exception;
 
     /**
-     * retrieve {@link ExporterInput} that need to consume in {@link com.vtx.reportgenerator.ReportExportationProvider}.
+     * retrieve {@link ExporterInput} that need to consume in {@link JRReportExportationProvider}.
      *
      * @return ExporterInput
      */
@@ -88,7 +91,6 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
                 afterPropertiesSet();
 
                 for (InputStream jrXmlTemplate : jrXmlTemplates) {
-
                     JasperReport jasperReport;
                     if (jxmlTemplateCustomizer == null) {
                         jasperReport = JasperCompileManager.compileReport(jrXmlTemplate);
@@ -100,7 +102,6 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
                         jasperPrintCustomizer.customize(jasperPrint);
                     }
                     jasperPrintItemExporter.add(jasperPrint);
-
                 }
             }
 
@@ -185,6 +186,7 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
 
     /**
      * Retrieve to configuration parameters.
+     *
      * @return {@link Map}
      */
     public Map<String, Object> getParameters() {

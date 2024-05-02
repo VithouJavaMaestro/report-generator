@@ -1,13 +1,15 @@
 package com.vtx.reportgenerator.configuration;
 
-import com.vtx.reportgenerator.utils.FileUtils;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import com.vtx.reportgenerator.key.JRFileConfigurationKey;
+import com.vtx.reportgenerator.key.Key;
 import net.sf.jasperreports.data.excel.ExcelFormatEnum;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.AbstractXlsQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.ExcelQueryExecuterFactory;
 import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.InputStream;
 
 public class JRXlsxConfiguration extends AbstractJRFileConfiguration {
 
@@ -18,15 +20,15 @@ public class JRXlsxConfiguration extends AbstractJRFileConfiguration {
     private String columnIndex;
     private boolean userFirstRowAsHeader;
 
-    public JRXlsxConfiguration(String excelPath) {
-        super(excelPath);
-        FileUtils.checkFileExtension(excelPath, "xlsx", "xls");
+    public JRXlsxConfiguration(InputStream inputStream) {
+        super(inputStream);
     }
 
     @Override
-    protected void afterPropertiesSet() throws FileNotFoundException {
+    protected void afterPropertiesSet() throws Exception {
 
-        File file = new File(path);
+        super.afterPropertiesSet();
+
         setValue(AbstractXlsQueryExecuterFactory.XLS_WORKBOOK, xlsWorkBook);
         setValue(AbstractXlsQueryExecuterFactory.XLS_SHEET_SELECTION, sheetSelection);
         setValue(ExcelQueryExecuterFactory.XLS_FORMAT, xlsFormat);
@@ -34,14 +36,23 @@ public class JRXlsxConfiguration extends AbstractJRFileConfiguration {
         setValue(AbstractXlsQueryExecuterFactory.XLS_DATE_PATTERN, datePattern);
         setValue(AbstractXlsQueryExecuterFactory.XLS_NUMBER_FORMAT, numberFormat);
         setValue(AbstractXlsQueryExecuterFactory.XLS_NUMBER_PATTERN, numberPattern);
-        setValue(AbstractXlsQueryExecuterFactory.XLS_INPUT_STREAM, new FileInputStream(file));
-        setValue(AbstractXlsQueryExecuterFactory.XLS_FILE, file);
-        setValue(AbstractXlsQueryExecuterFactory.XLS_SOURCE, path);
+        setValue(AbstractXlsQueryExecuterFactory.XLS_INPUT_STREAM, importedFile);
         setValue(AbstractXlsQueryExecuterFactory.XLS_LOCALE_CODE, localCode);
         setValue(AbstractXlsQueryExecuterFactory.XLS_COLUMN_NAMES, columnNames);
         setValue(AbstractXlsQueryExecuterFactory.XLS_COLUMN_INDEXES, columnIndex);
         setValue(AbstractXlsQueryExecuterFactory.XLS_USE_FIRST_ROW_AS_HEADER, userFirstRowAsHeader);
 
+    }
+
+
+    @Override
+    public void prepareJasperDesignAndQueryInternal(JasperDesign jasperDesign, JRDesignQuery jrDesignQuery) {
+
+    }
+
+    @Override
+    public Key getKey() {
+        return JRFileConfigurationKey.XLS;
     }
 
     public Workbook getXlsWorkBook() {
