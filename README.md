@@ -20,7 +20,7 @@ The JasperReports Export Tool is a Java utility for generating reports from Jasp
 
 ### Prerequisites
 
-- Java Development Kit (JDK) 8 or higher.
+- Java Development Kit (JDK) 17 or higher.
 - Apache Maven for building the project.
 
 ### Installation
