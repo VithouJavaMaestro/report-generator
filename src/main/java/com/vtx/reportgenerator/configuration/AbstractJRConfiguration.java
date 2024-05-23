@@ -1,11 +1,16 @@
 package com.vtx.reportgenerator.configuration;
 
 import com.vtx.reportgenerator.JRConfiguration;
-import com.vtx.reportgenerator.JRReportExportationProvider;
 import com.vtx.reportgenerator.JasperPrintCustomizer;
 import com.vtx.reportgenerator.JasperPrintItemExporter;
 import com.vtx.reportgenerator.JrxmlTemplateCustomizer;
 import com.vtx.reportgenerator.ReportException;
+import com.vtx.reportgenerator.key.ExporterKey;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -15,12 +20,6 @@ import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.export.ExporterInput;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Abstract class for jasper report configuration.
@@ -45,9 +44,9 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
      */
     protected JasperPrintCustomizer jasperPrintCustomizer;
     /**
-     * List of jrxmlTemplate for importing multiple templates of jrxml.
+     * jrxmlTemplate for importing template of jrxml.
      */
-    protected List<InputStream> jrXmlTemplates;
+    protected InputStream jrXmlTemplate;
     /**
      * parameters for jasperReport.
      */
@@ -56,6 +55,8 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
      * Context for additional properties depends on use cases.
      */
     protected JasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
+
+    private ExporterKey exporterKey;
 
     /**
      * {@link JasperPrint} the preparation for different configurations.
@@ -75,7 +76,7 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
     protected abstract void afterPropertiesSet() throws Exception;
 
     /**
-     * retrieve {@link ExporterInput} that need to consume in {@link JRReportExportationProvider}.
+     * retrieve {@link ExporterInput} that need to consume in {@link ExporterInput}.
      *
      * @return ExporterInput
      */
@@ -86,11 +87,10 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
 
             JasperPrintItemExporter jasperPrintItemExporter = new JasperPrintItemExporter();
 
-            if (jrXmlTemplates != null) {
+            if (jrXmlTemplate != null) {
 
                 afterPropertiesSet();
 
-                for (InputStream jrXmlTemplate : jrXmlTemplates) {
                     JasperReport jasperReport;
                     if (jxmlTemplateCustomizer == null) {
                         jasperReport = JasperCompileManager.compileReport(jrXmlTemplate);
@@ -102,7 +102,6 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
                         jasperPrintCustomizer.customize(jasperPrint);
                     }
                     jasperPrintItemExporter.add(jasperPrint);
-                }
             }
 
             return jasperPrintItemExporter;
@@ -115,31 +114,8 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
         }
     }
 
-    /**
-     * Retrieve the value by key and type.
-     *
-     * @param key   stands for key in Map.
-     * @param clazz stands for class type.
-     * @param <T>   type for response.
-     */
-    @Override
-    public <T> T get(String key, Class<T> clazz) {
-        Object value = jasperReportsContext.getValue(key);
-        if (value != null) {
-            return clazz.cast(value);
-        }
-        return null;
-    }
-
-    /**
-     * Set value in Map by providing key and any value.
-     *
-     * @param key   stands for key in Map.
-     * @param value stands for any value.
-     */
-    @Override
-    public void put(String key, Object value) {
-        jasperReportsContext.setValue(key, value);
+    public JasperReportsContext getContext() {
+        return jasperReportsContext;
     }
 
     /**
@@ -156,12 +132,6 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
         this.jasperPrintCustomizer = jasperReportCustomizer;
     }
 
-    /**
-     * @param jrXmlTemplates stands for jrxmlTemplate as inputStream.
-     */
-    public void setJrXmlTemplates(List<InputStream> jrXmlTemplates) {
-        this.jrXmlTemplates = jrXmlTemplates;
-    }
 
     /**
      * @param key   stands for key needs to put in jasperReports.
@@ -174,14 +144,8 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
         this.parameters.put(key, value);
     }
 
-    /**
-     * @param jrXml stands for jrxmlTemplate as inputStream.
-     */
-    public void addJrXml(InputStream jrXml) {
-        if (jrXmlTemplates == null) {
-            this.jrXmlTemplates = new ArrayList<>();
-        }
-        this.jrXmlTemplates.add(jrXml);
+    public void setJrXmlTemplate(InputStream jrXmlTemplate) {
+        this.jrXmlTemplate = jrXmlTemplate;
     }
 
     /**
@@ -191,5 +155,13 @@ public abstract class AbstractJRConfiguration implements JRConfiguration {
      */
     public Map<String, Object> getParameters() {
         return this.parameters;
+    }
+
+    public void setExporterKey(ExporterKey exporterKey) {
+        this.exporterKey = exporterKey;
+    }
+
+    public ExporterKey getExportationKey() {
+        return exporterKey;
     }
 }

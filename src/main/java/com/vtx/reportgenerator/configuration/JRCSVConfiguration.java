@@ -8,8 +8,10 @@ import net.sf.jasperreports.engine.query.JRCsvQueryExecuterFactory;
 
 import java.io.InputStream;
 import java.util.TimeZone;
+import org.springframework.util.ReflectionUtils;
 
 public class JRCSVConfiguration extends AbstractJRFileConfiguration {
+
     private String csvEncoding = "UTF-8";
     private String csvDelimiter;
     private boolean useFirstRowAsHeader;
@@ -38,7 +40,7 @@ public class JRCSVConfiguration extends AbstractJRFileConfiguration {
 
     @Override
     public void prepareJasperDesignAndQueryInternal(JasperDesign jasperDesign, JRDesignQuery jrDesignQuery) {
-
+        //additional implementation
     }
 
     @Override

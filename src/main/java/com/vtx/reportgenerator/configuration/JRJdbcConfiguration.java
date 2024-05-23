@@ -10,9 +10,10 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 public class JRJdbcConfiguration extends AbstractJRJDBCConfiguration {
-    private String username;
-    private String password;
-    private String url;
+
+    private final String username;
+    private final String password;
+    private final String url;
 
     public JRJdbcConfiguration(String username, String password, String url) {
         Objects.requireNonNull(username);
@@ -21,9 +22,6 @@ public class JRJdbcConfiguration extends AbstractJRJDBCConfiguration {
         this.username = username;
         this.password = password;
         this.url = url;
-    }
-
-    public JRJdbcConfiguration() {
     }
 
     @Override

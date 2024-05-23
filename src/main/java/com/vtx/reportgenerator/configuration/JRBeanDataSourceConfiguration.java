@@ -7,6 +7,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import java.util.Collection;
 
 public class JRBeanDataSourceConfiguration<T> extends AbstractJRDataSourceConfiguration {
+
     private Collection<T> beans;
     private boolean isUseFieldDescription;
 
@@ -15,8 +16,6 @@ public class JRBeanDataSourceConfiguration<T> extends AbstractJRDataSourceConfig
         setUseFieldDescription(isUseFieldDescription);
     }
 
-    public JRBeanDataSourceConfiguration() {
-    }
 
     @Override
     protected void afterPropertiesSet() {

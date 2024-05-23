@@ -1,8 +1,6 @@
-package com.vtx.reportgenerator;
+package com.vtx.reportgenerator.key;
 
-import com.vtx.reportgenerator.key.Key;
-
-public enum ReportProvider implements Key {
+public enum ProviderKey implements Key {
     JASPER_REPORT() {
         @Override
         public String getName() {

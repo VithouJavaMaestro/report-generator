@@ -23,6 +23,7 @@ import java.util.Locale;
  * @since 1.0.0
  */
 public abstract class AbstractJRFileConfiguration extends AbstractJRConfiguration {
+
     protected InputStream importedFile;
     protected DateFormat dateFormat = DEFAULT_DATE_FORMAT;
     protected NumberFormat numberFormat = DEFAULT_NUMBER_FORMAT;

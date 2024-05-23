@@ -47,7 +47,7 @@ public class JRXlsxConfiguration extends AbstractJRFileConfiguration {
 
     @Override
     public void prepareJasperDesignAndQueryInternal(JasperDesign jasperDesign, JRDesignQuery jrDesignQuery) {
-
+        // additional implementation
     }
 
     @Override

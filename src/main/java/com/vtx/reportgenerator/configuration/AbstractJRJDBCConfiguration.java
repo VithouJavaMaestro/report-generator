@@ -16,6 +16,7 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public abstract class AbstractJRJDBCConfiguration extends AbstractJRConfiguration {
+
     private Connection connection;
 
     public void setConnection(Connection connection) {
@@ -27,4 +28,5 @@ public abstract class AbstractJRJDBCConfiguration extends AbstractJRConfiguratio
         Objects.requireNonNull(connection);
         return JasperFillManager.fillReport(jasperReport, parameters, connection);
     }
+
 }

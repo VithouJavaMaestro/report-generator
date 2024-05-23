@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.util.TimeZone;
 
 public class JRXmlConfiguration extends AbstractJRFileConfiguration {
+
     private Document xmlDataDocument;
     private final String xPathNode;
 

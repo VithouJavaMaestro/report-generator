@@ -1,9 +1,9 @@
 package com.vtx.reportgenerator.exporter;
 
-import com.vtx.reportgenerator.AbstractJRExporter;
-import com.vtx.reportgenerator.key.ExporterKey;
 import com.vtx.reportgenerator.JRConfiguration;
+import com.vtx.reportgenerator.key.ExporterKey;
 import com.vtx.reportgenerator.key.Key;
+import java.io.OutputStream;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.Exporter;
@@ -13,35 +13,35 @@ import net.sf.jasperreports.export.PdfExporterConfiguration;
 import net.sf.jasperreports.export.PdfReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
-public class JRPdfReportExporter extends AbstractJRExporter<ExporterInput, PdfReportConfiguration, PdfExporterConfiguration, OutputStreamExporterOutput> {
+public class JRPdfReportExporter implements JROutputManager {
 
     @Override
-    protected OutputStreamExporterOutput getExporterOutput(JRConfiguration jrConfiguration) {
-        return new SimpleOutputStreamExporterOutput(byteArrayOutputStream);
+    public OutputStreamExporterOutput getExporterOutput(JRConfiguration jrConfiguration, OutputStream outputStream) {
+        return new SimpleOutputStreamExporterOutput(outputStream);
     }
 
     @Override
-    protected ExporterInput getExporterInput(JRConfiguration jrConfiguration) {
+    public ExporterInput getExporterInput(JRConfiguration jrConfiguration) {
         return jrConfiguration.getExporterInput();
     }
 
     @Override
-    protected PdfReportConfiguration getReportConfiguration(JRConfiguration jrConfiguration) {
+    public PdfReportConfiguration getReportConfiguration(JRConfiguration jrConfiguration) {
         return null;
     }
 
     @Override
-    protected PdfExporterConfiguration getExporterConfiguration(JRConfiguration jrConfiguration) {
+    public PdfExporterConfiguration getExporterConfiguration(JRConfiguration jrConfiguration) {
         return null;
     }
 
     @Override
-    protected ReportContext getReportContext(JRConfiguration configuration) {
+    public ReportContext getReportContext(JRConfiguration configuration) {
         return null;
     }
 
     @Override
-    protected Exporter<ExporterInput, PdfReportConfiguration, PdfExporterConfiguration, OutputStreamExporterOutput> getExporter(JRConfiguration jrConfiguration) {
+    public Exporter<ExporterInput, PdfReportConfiguration, PdfExporterConfiguration, OutputStreamExporterOutput> getExporter(JRConfiguration jrConfiguration) {
         return new JRPdfExporter();
     }
 

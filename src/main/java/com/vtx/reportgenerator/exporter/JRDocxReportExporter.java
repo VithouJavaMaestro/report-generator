@@ -1,9 +1,9 @@
 package com.vtx.reportgenerator.exporter;
 
-import com.vtx.reportgenerator.AbstractJRExporter;
-import com.vtx.reportgenerator.key.ExporterKey;
 import com.vtx.reportgenerator.JRConfiguration;
+import com.vtx.reportgenerator.key.ExporterKey;
 import com.vtx.reportgenerator.key.Key;
+import java.io.OutputStream;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.export.DocxExporterConfiguration;
@@ -13,40 +13,40 @@ import net.sf.jasperreports.export.ExporterInput;
 import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
-public class JRDocxReportExporter extends AbstractJRExporter<ExporterInput, DocxReportConfiguration, DocxExporterConfiguration, OutputStreamExporterOutput> {
+public class JRDocxReportExporter implements JROutputManager {
 
     @Override
-    protected OutputStreamExporterOutput getExporterOutput(JRConfiguration jrConfiguration) {
-        return new SimpleOutputStreamExporterOutput(byteArrayOutputStream);
+    public OutputStreamExporterOutput getExporterOutput(JRConfiguration jrConfiguration, OutputStream outputStream) {
+        return new SimpleOutputStreamExporterOutput(outputStream);
     }
 
     @Override
-    protected ExporterInput getExporterInput(JRConfiguration jrConfiguration) {
+    public ExporterInput getExporterInput(JRConfiguration jrConfiguration) {
         return jrConfiguration.getExporterInput();
     }
 
     @Override
-    protected DocxReportConfiguration getReportConfiguration(JRConfiguration jrConfiguration) {
+    public DocxReportConfiguration getReportConfiguration(JRConfiguration jrConfiguration) {
         return null;
     }
 
     @Override
-    protected DocxExporterConfiguration getExporterConfiguration(JRConfiguration jrConfiguration) {
+    public DocxExporterConfiguration getExporterConfiguration(JRConfiguration jrConfiguration) {
         return null;
     }
 
     @Override
-    protected ReportContext getReportContext(JRConfiguration configuration) {
+    public ReportContext getReportContext(JRConfiguration configuration) {
         return null;
     }
 
     @Override
-    protected Exporter<ExporterInput, DocxReportConfiguration, DocxExporterConfiguration, OutputStreamExporterOutput> getExporter(JRConfiguration jrConfiguration) {
+    public Exporter<ExporterInput, DocxReportConfiguration, DocxExporterConfiguration, OutputStreamExporterOutput> getExporter(JRConfiguration jrConfiguration) {
         return new JRDocxExporter();
     }
 
     @Override
     public boolean isMatchKey(Key key) {
-        return ExporterKey.DOCX == key ||  ExporterKey.DOC == key;
+        return ExporterKey.DOCX == key || ExporterKey.DOC == key;
     }
 }

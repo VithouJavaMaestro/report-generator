@@ -1,9 +1,9 @@
 package com.vtx.reportgenerator.exporter;
 
-import com.vtx.reportgenerator.AbstractJRExporter;
 import com.vtx.reportgenerator.JRConfiguration;
 import com.vtx.reportgenerator.key.ExporterKey;
 import com.vtx.reportgenerator.key.Key;
+import java.io.OutputStream;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.export.Exporter;
@@ -13,34 +13,34 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.XlsExporterConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 
-public class JRXlsReportExporter extends AbstractJRExporter<ExporterInput, XlsReportConfiguration, XlsExporterConfiguration, OutputStreamExporterOutput> {
+public class JRXlsReportExporter implements JROutputManager {
     @Override
-    protected OutputStreamExporterOutput getExporterOutput(JRConfiguration jrConfiguration) {
-        return new SimpleOutputStreamExporterOutput(byteArrayOutputStream);
+    public OutputStreamExporterOutput getExporterOutput(JRConfiguration jrConfiguration, OutputStream outputStream) {
+        return new SimpleOutputStreamExporterOutput(outputStream);
     }
 
     @Override
-    protected ExporterInput getExporterInput(JRConfiguration jrConfiguration) {
+    public ExporterInput getExporterInput(JRConfiguration jrConfiguration) {
         return jrConfiguration.getExporterInput();
     }
 
     @Override
-    protected XlsReportConfiguration getReportConfiguration(JRConfiguration jrConfiguration) {
+    public XlsReportConfiguration getReportConfiguration(JRConfiguration jrConfiguration) {
         return null;
     }
 
     @Override
-    protected XlsExporterConfiguration getExporterConfiguration(JRConfiguration jrConfiguration) {
+    public XlsExporterConfiguration getExporterConfiguration(JRConfiguration jrConfiguration) {
         return null;
     }
 
     @Override
-    protected ReportContext getReportContext(JRConfiguration configuration) {
+    public ReportContext getReportContext(JRConfiguration configuration) {
         return null;
     }
 
     @Override
-    protected Exporter<ExporterInput, XlsReportConfiguration, XlsExporterConfiguration, OutputStreamExporterOutput> getExporter(JRConfiguration jrConfiguration) {
+    public Exporter<ExporterInput, XlsReportConfiguration, XlsExporterConfiguration, OutputStreamExporterOutput> getExporter(JRConfiguration jrConfiguration) {
         return new JRXlsExporter();
     }
 
